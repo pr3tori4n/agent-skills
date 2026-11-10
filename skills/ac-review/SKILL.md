@@ -38,13 +38,15 @@ If any of these are missing from the prompt, ask for them before starting.
 
 ## Output
 - **Score**: Is the code as written ready to merge? Ready or Not Ready.
-  - Not Ready if there are any P0 or P1 issues or any AC that is not fully met.
-- **AC Coverage**: List each criterion as Met, Partially Met, or Not Met, with a one-line reason.
+  - Not Ready if any AC is Not Met or there are any P0 or P1 issues.
+- **AC Coverage**: List each criterion as Met or Not Met, with a one-line reason. Mark it Met when the required behavior works, even if the implementation has quality problems. Record quality problems in delivered code (edge cases, weak tests, style) under Issues with their own severity, not here.
 - **Issues**: Sorted by severity, each with a `file:line` reference:
-  - **P0**: Must fix before merge
-  - **P1**: Should fix before merge
-  - **P2**: Should fix, can be a follow-up
-  - **P3**: Nitpick
+  - **P0**: Must fix before merge. Exploitable security issue, data loss or corruption, or an AC not met.
+  - **P1**: Should fix before merge. A bug outside the AC, no test for the main behavior an AC describes (e.g., the AC adds login and there are no login tests), over-broad permissions, PII in logs, or breaking a documented project rule.
+  - **P2**: Should fix, can be a follow-up. Missing edge-case tests (e.g., login is tested but not expired tokens or lockout), weak or low-value tests, unnecessary complexity, unrelated changes in the branch.
+  - **P3**: Nitpick. Style, naming, small improvements.
+
+  If an issue fits more than one level, use the highest.
 
   Where applicable, include a code block showing the suggested fix.
 
