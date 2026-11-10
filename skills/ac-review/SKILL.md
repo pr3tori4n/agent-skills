@@ -1,6 +1,6 @@
 ---
 name: ac-review
-description: Use when asked for a code review of a branch, PR, or set of changes against requirements. Review a feature branch against a base branch and its acceptance criteria (AC). Checks correctness, test coverage, scope, simplicity, and project conventions.
+description: Use when asked for a code review of a branch, PR, or set of changes, including reviews against acceptance criteria (AC), requirements, or a ticket.
 ---
 
 # AC Review
