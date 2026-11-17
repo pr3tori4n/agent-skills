@@ -50,7 +50,7 @@ If the prompt is made with a single repo context, use that as the repo and don't
   - **P2**: Should fix, can be a follow-up. Missing edge-case tests (e.g., login is tested but not expired tokens or lockout), weak or low-value tests, unnecessary complexity, unrelated changes in the branch.
   - **P3**: Nitpick. Style, naming, small improvements.
 
-  If an issue fits more than one level, use the highest.
+  If an issue fits more than one level, use the highest. If an issue fits into one of the Review Criteria categories, tag it with that category.
 
   Where applicable, include a code block showing the suggested fix.
 
