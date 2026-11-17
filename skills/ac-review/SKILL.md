@@ -11,8 +11,10 @@ Review a feature branch against a base branch and its acceptance criteria (AC).
 - Feature branch
 - Base branch
 - Acceptance criteria
+- Repository (Repo)
 
 If any of these are missing from the prompt, ask for them before starting.
+If the prompt is made with a single repo context, use that as the repo and don't request it. If it's from a context with multiple repos, prompt for which repos the ticket spans.
 
 ## Process
 1. Fetch the latest changes and get the diff:
@@ -22,6 +24,7 @@ If any of these are missing from the prompt, ask for them before starting.
    ```
 2. Determine what kind of codebase this is (AWS microservice, React/Next app, Playwright test suite, etc.) and use that context throughout the review.
 3. Analyze what the change does and compare it against the AC.
+4. Never change the current checkout; to run tests, use a separate worktree (`git worktree add ../review-<branch> origin/<branch>`), and state in the review if tests were not run.
 
 ## Review Criteria
 - **Correctness**: Does the solution meet the AC?
@@ -29,6 +32,7 @@ If any of these are missing from the prompt, ask for them before starting.
 - **Scope**: Does the change stick to the stated ask, without bundling unrelated changes?
 - **Simplicity**: Is the solution more complex than it needs to be, or over-engineered? Is there an approach that meets the ask with less complexity, less code, or less ambiguity?
 - **Conventions & Best Practices**: Does the new code follow the project's existing coding patterns? Does it follow industry best practices for this type of codebase?
+- **Compatibility**: Does the change break existing consumers (API or event shapes, database keys or schemas) without a migration or rollout plan?
 - **Performance**: Does the change add unnecessary work or cost? Only flag issues with a real impact, not micro-optimizations.
   - AWS: DynamoDB scans where a query or index would work, missing pagination, N+1 calls to downstream services, sequential awaits that could run in parallel, heavy initialization inside the Lambda handler instead of outside it, large dependencies that slow cold starts.
   - React/Next: unnecessary re-renders (unstable props, missing memoization where it measurably matters), data-fetching waterfalls, client components that could be server components, large libraries added to the client bundle, missing `next/image` or lazy loading for heavy assets.
@@ -51,4 +55,4 @@ If any of these are missing from the prompt, ask for them before starting.
   Where applicable, include a code block showing the suggested fix.
 
   If there are no issues, say so explicitly. Do not invent issues to fill this section.
-- **Questions for the author**, if any.
+- **Questions for the author**, if any, including any AC that is ambiguous, contradictory, or missing something the change clearly needs.
