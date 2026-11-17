@@ -45,10 +45,10 @@ If the prompt is made with a single repo context, use that as the repo and don't
   - Not Ready if any AC is Not Met or there are any P0 or P1 issues.
 - **AC Coverage**: List each criterion as Met or Not Met, with a one-line reason. Mark it Met when the required behavior works, even if the implementation has quality problems. Record quality problems in delivered code (edge cases, weak tests, style) under Issues with their own severity, not here.
 - **Issues**: Sorted by severity, each with a `file:line` reference:
-  - **P0**: Must fix before merge. Exploitable security issue, data loss or corruption, or an AC not met.
-  - **P1**: Should fix before merge. A bug outside the AC, no test for the main behavior an AC describes (e.g., the AC adds login and there are no login tests), over-broad permissions, PII in logs, or breaking a documented project rule.
-  - **P2**: Should fix, can be a follow-up. Missing edge-case tests (e.g., login is tested but not expired tokens or lockout), weak or low-value tests, unnecessary complexity, unrelated changes in the branch.
-  - **P3**: Nitpick. Style, naming, small improvements.
+  - **P0**: Must fix before merge. Critical impact issue that cannot hit production. An exploitable security issue, data loss or corruption, or an AC not met.
+  - **P1**: Should fix before merge. A high impact issue. A bug outside the AC, , over-broad permissions, PII in logs, or breaking a documented project rule.
+  - **P2**: Should fix, can be a follow-up. Issue of moderate impact, not business critical. Missing tests for the main behavior an AC describes (e.g., the AC adds login and there are no login tests), weak or low-value tests, unnecessary complexity, unrelated changes in the branch.
+  - **P3**: Nitpick. Style, naming, small improvements. Missing tests for non-core functionality (e.g., login is tested but not expired tokens or lockout).
 
   If an issue fits more than one level, use the highest. If an issue fits into one of the Review Criteria categories, tag it with that category.
 
