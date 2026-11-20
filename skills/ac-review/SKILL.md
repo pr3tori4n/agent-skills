@@ -34,6 +34,7 @@ If the prompt is made with a single repo context, use that as the repo and don't
   - **Asserts a mock** — the thing under test is mocked out, so the test proves the mock renders.
   - **Change detector** — `not.toHaveClass('p-4')` pinning the value this diff removed; passes forever after merge.
   - **Redundant** — a weaker assertion the same diff has superseded elsewhere.
+  - **Passes by construction** — the expected value is imported from, or rebuilt with, the code under test, so it tracks whatever the code does and stays green even when the value changes to a wrong one.
   - **Smoke test as coverage** — "it renders" standing in for a behavioural assertion.
   - **Asserts console output** — the test checks what was logged rather than what the code did.
 
@@ -64,4 +65,4 @@ If the prompt is made with a single repo context, use that as the repo and don't
   Where applicable, include a code block showing the suggested fix.
 
   If there are no issues, say so explicitly. Do not invent issues to fill this section.
-- **Test Summary**: One line — tests added, tests changed, and how many are low-value, e.g. `14 added, 3 changed, 4 low-value`. Count a pre-existing weak test only if this diff makes it newly redundant or newly fixable, and say so. If the count is above zero, the tests themselves go under Issues with their pattern named; do not list the sound ones anywhere.
+- **Test Summary**: One line — tests added, tests changed, and how many are low-value, e.g. `14 added, 3 changed, 4 low-value`. If the count is above zero, those tests go under Issues with their pattern named, each with a recommendation to fix it — naming the assertion it should make instead — or to delete it outright. Do not list the sound ones anywhere.
