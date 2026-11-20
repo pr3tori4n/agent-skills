@@ -25,10 +25,19 @@ If the prompt is made with a single repo context, use that as the repo and don't
 2. Determine what kind of codebase this is (AWS microservice, React/Next app, Playwright test suite, etc.) and use that context throughout the review.
 3. Analyze what the change does and compare it against the AC.
 4. Never change the current checkout; to run tests, use a separate worktree (`git worktree add ../review-<branch> origin/<branch>`), and state in the review if tests were not run.
+5. Go through the tests added or changed in the diff one at a time. For each, ask what would have to break for it to fail; a test with no such answer, or one whose answer does not match its name, is low-value. Count them as you go. Review test files test by test, not as a block — thorough coverage in one area does not excuse a weak test in another. Report only the totals and the findings worth acting on, not a line per test.
 
 ## Review Criteria
 - **Correctness**: Does the solution meet the AC?
-- **Test Coverage**: Is the test coverage adequate? Does it avoid low-value tests and assertions? For example, tests should not assert console output.
+- **Test Coverage**: Is the coverage adequate, and does each test earn its place? Flag these patterns by name:
+  - **Asserts nothing its name claims** — `it('uses 8000ms duration')` that only asserts the element rendered.
+  - **Asserts a mock** — the thing under test is mocked out, so the test proves the mock renders.
+  - **Change detector** — `not.toHaveClass('p-4')` pinning the value this diff removed; passes forever after merge.
+  - **Redundant** — a weaker assertion the same diff has superseded elsewhere.
+  - **Smoke test as coverage** — "it renders" standing in for a behavioural assertion.
+  - **Asserts console output** — the test checks what was logged rather than what the code did.
+
+  A pre-existing weak test that this diff makes newly fixable or newly redundant is in scope.
 - **Scope**: Does the change stick to the stated ask, without bundling unrelated changes?
 - **Simplicity**: Is the solution more complex than it needs to be, or over-engineered? Is there an approach that meets the ask with less complexity, less code, or less ambiguity?
 - **Conventions & Best Practices**: Does the new code follow the project's existing coding patterns? Does it follow industry best practices for this type of codebase?
@@ -55,4 +64,4 @@ If the prompt is made with a single repo context, use that as the repo and don't
   Where applicable, include a code block showing the suggested fix.
 
   If there are no issues, say so explicitly. Do not invent issues to fill this section.
-- **Questions for the author**, if any, including any AC that is ambiguous, contradictory, or missing something the change clearly needs.
+- **Test Summary**: One line — tests added, tests changed, and how many are low-value, e.g. `14 added, 3 changed, 4 low-value`. Count a pre-existing weak test only if this diff makes it newly redundant or newly fixable, and say so. If the count is above zero, the tests themselves go under Issues with their pattern named; do not list the sound ones anywhere.
